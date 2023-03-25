@@ -1,6 +1,6 @@
 from flask import Flask, render_template,redirect,url_for,session,request
 from flask_socketio import SocketIO
-import os, sys
+import os, sys,socket
 from pprint import pprint
 
 class MyApp(Flask):
@@ -8,7 +8,9 @@ class MyApp(Flask):
         super(MyApp,self).__init__(name)
         self.config['SECRET_KEY'] = os.urandom(25)
         self.config['DEBUG'] = True
+        self.config['PORT']= 5000
         self.socketio = SocketIO(self)
+        self.config['HOST'] = socket.gethostname()
         self.routes()
         
     def routes(self):
@@ -27,4 +29,8 @@ class MyApp(Flask):
            
 app = MyApp(__name__)
 if __name__ == '__main__':
-    app.socketio.run(app)
+    app.socketio.run(
+        app = app,
+        host = app.config['HOST'],
+        port = app.config['PORT']
+    )
