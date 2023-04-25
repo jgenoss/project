@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hola flask</title>
+        <meta name="description" content="">
+        <link rel="stylesheet" href="{{url_for('static',filename='plugins/fontawesome-free/css/all.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static',filename='plugins/sweetalert2/sweetalert2.min.css')}}">
+        <link rel="stylesheet" href="{{url_for('static',filename='plugins/adminlte/css/adminlte.min.css')}}">
+    </head>
+    <body class="hold-transition login-page">
+        <div id="login" class="login-box">
+            <div class="lockscreen-logo">
+                <img src="{{url_for('static',filename='img/logo.png')}}" style="width:320px;" alt="deca">
+            </div>
+          <div class="card card-outline card-primary">
+            <div class="card-body">
+              <p class="login-box-msg">Inicia sesión</p>
+        
+              <form @submit.prevent="submitLogin">
+                <div class="form-group mb-3">
+                  <input v-model="auth.user" style="text-align: center;" type="text" class="form-control" placeholder="Usuario" required>
+                </div>
+                <div class="form-group mb-3">
+                  <input v-model="auth.pass" style="text-align: center;" type="password" class="form-control" placeholder="Contraseña" required>
+                </div>
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-block bg-gradient-primary">Ingresar</button>
+                    </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </body>
+    <script src="{{url_for('static',filename='plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url_for('static',filename='plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static',filename='plugins/sweetalert2/sweetalert2.all.min.js')}}" charset="utf-8"></script>
+    <script src="{{url_for('static',filename='plugins/adminlte/js/adminlte.min.js')}}"></script>
+    <script src="{{url_for('static',filename='plugins/vue/vue.js')}}"></script>
+    <script src="{{url_for('static',filename='plugins/axios/axios.min.js')}}"></script>
+    <script src="{{url_for('static',filename='socket.io.js')}}" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+        <script type="text/javascript" charset="utf-8">
+            var socket = io();
+            socket.on('connect', function() {
+                console.log('Connected to server');
+            });
+            socket.on('disconnect', function() {
+                console.log('Disconnected from server');
+            });
+        </script>
+</html>
