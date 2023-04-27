@@ -16,7 +16,7 @@ app.config['PORT'] = 8000
 #    from models.user import User
 #    return User.get_id(user_id)
 
-app.register_blueprint(controller)
+
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -26,6 +26,8 @@ def page_not_found(error):
 def error404():
     # Renderiza la página de error 404
     return render_template('500.html')
+
+app.register_blueprint(controller)
 
 @socketio.on('connect')
 def handle_connect():
