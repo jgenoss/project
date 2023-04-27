@@ -1,10 +1,9 @@
 from flask import Blueprint,render_template,Flask,url_for,request,redirect
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from flask_session import Session
-from models.user import User
-from models.db import db_manager
 
-db = db_manager()
+
+
 
 controller = Blueprint('controller',__name__)
 
@@ -30,6 +29,9 @@ def submit_login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        from models.user import User
+        from models.db import db_manager
+        db = db_manager()
         logger_user = User.get_username(db,username)
         
         if logger_user != None and logger_user.password == password:

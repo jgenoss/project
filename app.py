@@ -3,7 +3,7 @@ from flask_socketio import SocketIO,emit
 from routes.controller import controller
 from flask_login import LoginManager, login_user, logout_user, login_required
 from models.db import db_manager
-from models.user import User
+#from models.user import User
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -28,6 +28,7 @@ def handle_disconnect():
     
 @login_manager.user_loader
 def load_user(user_id):
+    from models.user import User
     return User.get_user_id(db,user_id)
     
 if __name__ == "__main__":
