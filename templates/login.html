@@ -17,13 +17,19 @@
           <div class="card card-outline card-primary">
             <div class="card-body">
               <p class="login-box-msg">Inicia sesión</p>
-        
-              <form @submit.prevent="submitLogin">
+              {% if error %}
+              <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-exclamation-triangle text-center"></i> Alert!</h5>
+                {{ error }}
+              </div>
+              {% endif %}
+              <form method="POST" action="{{url_for('controller.submit_login')}}">
                 <div class="form-group mb-3">
-                  <input v-model="auth.user" style="text-align: center;" type="text" class="form-control" placeholder="Usuario" required>
+                  <input name="username" style="text-align: center;" type="text" class="form-control" placeholder="Usuario" required>
                 </div>
                 <div class="form-group mb-3">
-                  <input v-model="auth.pass" style="text-align: center;" type="password" class="form-control" placeholder="Contraseña" required>
+                  <input name="password" style="text-align: center;" type="password" class="form-control" placeholder="Contraseña" required>
                 </div>
                     <div class="text-center">
                       <button type="submit" class="btn btn-block bg-gradient-primary">Ingresar</button>
