@@ -20,7 +20,10 @@ def submit_login():
         if username == 'jose' and password == '1234':
             return redirect(url_for('controller.dashboard'))
         else:
-            return render_template('login.html', error='El nombre de usuario o contraseña son inválidos')
+            return render_template(
+                'login.html', 
+                error='El nombre de usuario o contraseña son inválidos'
+            )
     else:
         return redirect(url_for('controller.login'))
 
