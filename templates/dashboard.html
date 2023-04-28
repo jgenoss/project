@@ -1,0 +1,6 @@
+{% if current_user.is_anonymous %}
+    True
+{% else %}
+    <a href="{{url_for('controller.logout')}}">cerrar</a>
+    {{ current_user.username}}
+{% endif %}

@@ -1,19 +1,21 @@
-from flask import Flask,render_template,Blueprint,redirect,url_for
+from flask import Flask,session
 from flask_socketio import SocketIO,emit
 from routes.controller import controller
-from flask_login import LoginManager, login_user, logout_user, login_required
-from models.db import db_manager
-#from models.user import User
+from flask_login import LoginManager
+from flask_session import Session
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 login_manager = LoginManager(app)
+app.config['SESSION_TYPE'] = 'filesystem'
+login_manager.login_view = 'controller.index'
 login_manager.init_app(app)
+Session(app)
+
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True
 app.config['HOST'] = '0.0.0.0'
 app.config['PORT'] = 8000
-db = db_manager()
 
 app.register_blueprint(controller)
 
@@ -29,7 +31,8 @@ def handle_disconnect():
 @login_manager.user_loader
 def load_user(user_id):
     from models.user import User
-    return User.get_user_id(db,user_id)
+    return User.is_validate(user_id)
+   
     
 if __name__ == "__main__":
     socketio.run(

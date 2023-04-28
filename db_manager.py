@@ -6,7 +6,7 @@ class db_manager:
             host='localhost',
             user='root',
             password='',
-            database='db_deca'
+            database='test'
         )
         self.cursor = self.conn.cursor(buffered=True)
     

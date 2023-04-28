@@ -1,9 +1,5 @@
-from flask import Blueprint,render_template,Flask,url_for,request,redirect
-from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
-from flask_session import Session
-
-
-
+from flask import Blueprint,render_template,url_for,request,redirect,session
+from flask_login import login_user, logout_user, login_required, UserMixin,current_user,confirm_login
 
 controller = Blueprint('controller',__name__)
 
@@ -22,7 +18,10 @@ def index():
 
 @controller.route('/login')
 def login():
-    return render_template('login.html')
+    if 'is_session' not in session:
+        return render_template('login.html')
+    else:
+        return redirect(url_for('controller.dashboard'))
 
 @controller.route('/submit_login', methods=['GET','POST'])
 def submit_login():
@@ -30,20 +29,21 @@ def submit_login():
         username = request.form.get('username')
         password = request.form.get('password')
         from models.user import User
-        from models.db import db_manager
-        db = db_manager()
-        logger_user = User.get_username(db,username)
-        
-        if logger_user != None and logger_user.password == password:
+        logger_user = User.get_username(username)
+        if logger_user and logger_user.password == password:
+            session['is_session'] = 1
             login_user(logger_user)
             return redirect(url_for('controller.dashboard'))
         else:
-            return render_template(
-                'login.html', 
-                error='El nombre de usuario o contraseña son inválidos'
-            )
+            return render_template('login.html', error='El nombre de usuario o contraseña son inválidos')
     else:
         return redirect(url_for('controller.login'))
+
+@controller.route('/logout')
+def logout():
+    logout_user()
+    session.pop("is_session",None)
+    return redirect(url_for('controller.login'))
 
 @controller.route('/dashboard')
 @login_required
