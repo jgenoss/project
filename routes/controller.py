@@ -30,12 +30,13 @@ def submit_login():
         password = request.form.get('password')
         from models.user import User
         logger_user = User.get_username(username)
+        #print(User.get_username(username))
         if logger_user and logger_user.password == password:
             session['is_session'] = 1
             login_user(logger_user)
             return redirect(url_for('controller.dashboard'))
         else:
-            return render_template('login.html', error='El nombre de usuario o contraseña son inválidos')
+            return render_template('login.html', message='El nombre de usuario o contraseña son inválidos')
     else:
         return redirect(url_for('controller.login'))
 
