@@ -55,3 +55,30 @@ class User(UserMixin):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+    @classmethod
+    def get_user_roles(self, username):
+        db = db_manager()
+        rtn = db.fetch_one(f"""
+            SELECT
+                r.nombre 
+            FROM
+                roles r
+                INNER JOIN usuario u ON r.id_rol = u.id_rol 
+            WHERE
+                u.username = '{username}'""")
+        return [rtn[0]]
+    
+    @classmethod
+    def get_user_permissions(self, username):
+        db = db_manager()
+        results = db.fetch_all(f"""
+            SELECT
+                p.nombre
+            FROM
+                permisos p
+                INNER JOIN roles_permisos rp ON p.id_permiso = rp.id_permiso
+                INNER JOIN usuario u ON rp.id_rol = u.id_rol 
+            WHERE
+                u.username = '{username}'""")
+        return [r[0] for r in results]

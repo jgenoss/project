@@ -1,7 +1,7 @@
-from flask import Flask,session
+from flask import Flask,session,redirect,url_for,flash
 from flask_socketio import SocketIO,emit
 from routes.controller import controller
-from flask_login import LoginManager
+from flask_login import LoginManager,current_user
 from flask_session import Session
 
 app = Flask(__name__)
@@ -32,8 +32,8 @@ def handle_disconnect():
 def load_user(user_id):
     from models.user import User
     return User.is_validate(user_id)
-   
-    
+
+
 if __name__ == "__main__":
     socketio.run(
         app,
