@@ -63,7 +63,7 @@ class User(UserMixin):
             SELECT
                 r.nombre 
             FROM
-                roles r
+                _roles r
                 INNER JOIN usuario u ON r.id_rol = u.id_rol 
             WHERE
                 u.username = '{username}'""")
@@ -76,8 +76,8 @@ class User(UserMixin):
             SELECT
                 p.nombre
             FROM
-                permisos p
-                INNER JOIN roles_permisos rp ON p.id_permiso = rp.id_permiso
+                _permisos p
+                INNER JOIN _roles_permisos rp ON p.id_permiso = rp.id_permiso
                 INNER JOIN usuario u ON rp.id_rol = u.id_rol 
             WHERE
                 u.username = '{username}'""")

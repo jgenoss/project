@@ -81,11 +81,22 @@
 	      <div class="sidebar">
             <nav class="mt-2">
                <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
-                     <li class="nav-item <?php (@$_GET['page'] == $row->mDescripcion)? 'menu-is-opening menu-open': ''?>">
-                        <a href="<?php echo $row->mEnlace ?>" class="nav-link <?php if(@$_GET['page'] == $row->mDescripcion) {echo 'active';}?>">
-                        <p>Nad</p>
-                     </a>
-                  </li>
+                  {% if modulos %}
+                     {% for i in modulos %}
+                        {% if i.estado == 1 %}
+                           {% if i.view == 1 %}
+                              <li class="nav-item">
+                                 <a href="{{ i.enlace }}" class="nav-link {% if i.enlace == request.url_rule.rule  %}active{% endif %}">
+                                    <i class="{{ i.icono }}"></i>
+                                    <p>{{ i.titulo }}</p>
+                                 </a>
+                              </li>
+                           {% endif %}
+                        {% endif%}
+                     {% endfor%}
+                  {% else %}
+                     no modulos
+                  {% endif%}
                   <li class="nav-item">
                      <a href="{{url_for('controller.logout')}}" class="nav-link btn btn-block bg-gradient-danger">
                      <i class="nav-icon fas fa-sign-out"></i>
@@ -98,8 +109,9 @@
 	    </aside>
 	    <div class="content-wrapper">
 				<section class="content">
-				  <div class="container-fluid">
-					</div>
+               <div class="container-fluid">
+
+				   </div>
 				</section>
 	    </div>
 	    <footer class="main-footer">

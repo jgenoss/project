@@ -64,7 +64,9 @@ def submit_login():
         logger_user = User.get_username(username)
         if logger_user and logger_user.password == password:
             session['is_session'] = 1
-            session['username'] = username
+            session['username'] = logger_user.username
+            session['user_id'] = logger_user.id
+            print(logger_user.id)
             login_user(logger_user)
             return redirect(url_for('controller.dashboard'))
         else:
@@ -79,9 +81,10 @@ def logout():
     return redirect(url_for('controller.login'))
 
 
-@controller.route('/dashboard')
+@controller.route('/dashboard',methods=['GET'])
 @login_required
-@require_permissions(roles=['Usuario','Editor','Admin','DEV'],permissions=['Crear','Editar','Eliminar','Aprobar','Rechazar'])
+#@require_permissions(roles=['Usuario','Editor','Admin','DEV'],permissions=['Crear'])
 def dashboard():
-    return render_template('dashboard.html')
-
+    from controller.direciones import url_acc
+    modulos = url_acc.modulos(session['user_id'])
+    return render_template('dashboard.html', modulos=modulos)
