@@ -53,7 +53,7 @@ def login():
     if 'is_session' not in session:
         return render_template('login.html')
     else:
-        return redirect(url_for('controller.dashboard'))
+        return redirect(url_for('controller.home'))
 
 @controller.route('/submit_login', methods=['GET','POST'])
 def submit_login():
@@ -68,7 +68,7 @@ def submit_login():
             session['user_id'] = logger_user.id
             print(logger_user.id)
             login_user(logger_user)
-            return redirect(url_for('controller.dashboard'))
+            return redirect(url_for('controller.home'))
         else:
             return render_template('login.html', message='El nombre de usuario o contraseña son inválidos')
     else:
@@ -80,11 +80,32 @@ def logout():
     session.pop("is_session",None)
     return redirect(url_for('controller.login'))
 
-
-@controller.route('/dashboard',methods=['GET'])
+@controller.route('/dashboard')
 @login_required
-#@require_permissions(roles=['Usuario','Editor','Admin','DEV'],permissions=['Crear'])
+@require_permissions(['Admin','Editor','Lector'],['Leer'])
 def dashboard():
-    from controller.direciones import url_acc
-    modulos = url_acc.modulos(session['user_id'])
-    return render_template('dashboard.html', modulos=modulos)
+    return render_template('modulos/dashboard.html')
+
+@controller.route('/clientes')
+@login_required
+@require_permissions(['Admin','Editor','Lector'],['Leer'])
+def clientes():
+    return render_template('modulos/clientes.html')
+
+@controller.route('/bodegas')
+@login_required
+@require_permissions(['Admin','Editor','Lector'],['Leer'])
+def bodegas():
+    return render_template('modulos/bodegas.html')
+
+@controller.route('/usuarios')
+@login_required
+@require_permissions(['Admin','Editor','Lector'],['Leer'])
+def usuarios():
+    return render_template('modulos/usuarios.html')
+
+@controller.route('/productos')
+@login_required
+@require_permissions(['Admin','Editor','Lector'],['Leer'])
+def productos():
+    return render_template('modulos/productos.html')

@@ -1,0 +1,92 @@
+{% extends './base.html' %}
+{% block base %}
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Gestion de usuarios</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="">Gestion de usuarios</a></li>
+            <li class="breadcrumb-item active">AdminCP</li>
+          </ol>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <div id="usuarios" class="content">
+    <div v-if="list == true" class="col-12">
+      <div class="card card-primary">
+        <div class="card-header">Information
+          <button data-toggle="modal" data-target="#modal-add" class="btn btn-sm btn-default float-right"><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="card-body">
+          <table id="list" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- modulo add and edit -->
+    <div class="d-flex justify-content-center">
+      <div class="col-md-4">
+        <div class="card card-primary">
+          <div class="card-header"> 
+            <button class="btn btn-sm btn-default float-right">Volver</button>
+          </div>
+          <div>
+            <form>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Estado</label>
+                    <select class="form-control" required>
+                      <option disabled value="">seleccione una opcion</option>
+                      <option value="0">Inactivo</option>
+                      <option value="1">Activo</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default"><i class="fas fa-ban"></i></button>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i></button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /modulo add and edit -->
+  </div>
+  {% endblock %}

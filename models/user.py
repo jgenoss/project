@@ -63,22 +63,23 @@ class User(UserMixin):
             SELECT
                 r.nombre 
             FROM
-                _roles r
+                roles r
                 INNER JOIN usuario u ON r.id_rol = u.id_rol 
             WHERE
                 u.username = '{username}'""")
         return [rtn[0]]
     
     @classmethod
-    def get_user_permissions(self, username):
+    def get_user_permissions(self,user_id):
         db = db_manager()
         results = db.fetch_all(f"""
             SELECT
-                p.nombre
+                permisos.nombre 
             FROM
-                _permisos p
-                INNER JOIN _roles_permisos rp ON p.id_permiso = rp.id_permiso
-                INNER JOIN usuario u ON rp.id_rol = u.id_rol 
+                roles
+                INNER JOIN roles_permisos ON roles.id_rol = roles_permisos.id_rol
+                INNER JOIN usuario ON roles.id_rol = usuario.id_rol
+                INNER JOIN permisos ON roles_permisos.id_permiso = permisos.id_permiso 
             WHERE
-                u.username = '{username}'""")
+                usuario.id = '{user_id}'""")
         return [r[0] for r in results]

@@ -1,5 +1,4 @@
 {% if current_user %}
-{{ current_user.name }}
 <!DOCTYPE html>
 <html id="html">
    {% with messages = get_flashed_messages(with_categories=true) %}
@@ -81,22 +80,31 @@
 	      <div class="sidebar">
             <nav class="mt-2">
                <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
-                  {% if modulos %}
-                     {% for i in modulos %}
-                        {% if i.estado == 1 %}
-                           {% if i.view == 1 %}
-                              <li class="nav-item">
-                                 <a href="{{ i.enlace }}" class="nav-link {% if i.enlace == request.url_rule.rule  %}active{% endif %}">
-                                    <i class="{{ i.icono }}"></i>
-                                    <p>{{ i.titulo }}</p>
-                                 </a>
-                              </li>
-                           {% endif %}
-                        {% endif%}
-                     {% endfor%}
-                  {% else %}
-                     no modulos
-                  {% endif%}
+                  <li class="nav-item">
+                     <a href="{{ url_for('controller.dashboard')}}" class="nav-link {% if '/dashboard' == request.url_rule.rule  %}active{% endif %}">
+                        <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ url_for('controller.usuarios')}}" class="nav-link {% if '/usuarios' == request.url_rule.rule  %}active{% endif %}">
+                        <i class="nav-icon fas fa-users"></i><p>Usuarios</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ url_for('controller.clientes')}}" class="nav-link {% if '/clientes' == request.url_rule.rule  %}active{% endif %}">
+                        <i class="nav-icon nav-icon fas fa-user"></i><p>Clientes</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ url_for('controller.bodegas')}}" class="nav-link {% if '/bodegas' == request.url_rule.rule  %}active{% endif %}">
+                        <i class="nav-icon fa-solid fa-warehouse"></i><p>Bodegas</p>
+                     </a>
+                  </li>
+                  <li class="nav-item">
+                     <a href="{{ url_for('controller.productos')}}" class="nav-link {% if '/productos' == request.url_rule.rule  %}active{% endif %}">
+                        <i class="nav-icon fa-solid fa-boxes-stacked"></i><p>Productos</p>
+                     </a>
+                  </li>
                   <li class="nav-item">
                      <a href="{{url_for('controller.logout')}}" class="nav-link btn btn-block bg-gradient-danger">
                      <i class="nav-icon fas fa-sign-out"></i>
@@ -108,11 +116,12 @@
 	      </div>
 	    </aside>
 	    <div class="content-wrapper">
-				<section class="content">
-               <div class="container-fluid">
-
-				   </div>
-				</section>
+         <section class="content">
+            <div class="container-fluid">
+               {% block base %}
+               {% endblock %}
+            </div>
+         </section>
 	    </div>
 	    <footer class="main-footer">
 	      <strong>Powered by <img src="{{url_for('static',filename='img/unnamedJG.png')}}" width="40px" height="40px" alt="unnamedJG"></strong>
@@ -142,8 +151,5 @@
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
-      <script src="{{url_for('static',filename='plugins/vue/vue.js')}}"></script>
-      <script src="{{url_for('static',filename='plugins/axios/axios.min.js')}}"></script>
-      <script src="{{url_for('static',filename='js/home.js" charset="utf-8')}}"></script>
 </html>
 {% endif %}
