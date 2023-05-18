@@ -55,7 +55,7 @@
 				</div>
 	      <div class="sidebar">
             <nav class="mt-2">
-               <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
+               <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
                   <li class="nav-item">
                      <a href="{{ url_for('dashboard')}}" class="nav-link {% if '/dashboard' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
@@ -76,9 +76,9 @@
                         <i class="nav-icon fa-solid fa-warehouse"></i><p>Bodegas</p>
                      </a>
                   </li>
-                  <li class="nav-item {% if ('/inventory/products' == request.url_rule.rule) and ('/inventory/adjustments' == request.url_rule.rule) %}menu-opene{% endif %}">
-                     <a href="#" class="nav-link {% if ('/inventory/products' == request.url_rule.rule) and ('/inventory/adjustments' == request.url_rule.rule)  %}active{% endif %}">
-                       <i class="nav-icon nav-icon fas fa-dolly-flatbed"></i>
+                  <li class="nav-item {% if ((url_for('products') == request.url_rule.rule) or (url_for('adjustments') == request.url_rule.rule) or (url_for('category') == request.url_rule.rule)) %}menu-opene menu-is-opening menu-open{% endif %}">
+                     <a href="#" class="nav-link {% if ((url_for('products') == request.url_rule.rule) or (url_for('adjustments') == request.url_rule.rule) or (url_for('category') == request.url_rule.rule)) %}active{% endif %}">
+                       <i class="nav-icon fas fa-archive icon-menu"></i>
                        <p>
                          Inventario
                          <i class="fas fa-angle-left right"></i>
@@ -86,21 +86,27 @@
                      </a>
                      <ul class="nav nav-treeview">
                        <li class="nav-item">
-                         <a href="{{url_for('products')}}" class="nav-link {% if '/inventory/products' == request.url_rule.rule %}active{% endif %}">
-                           <i class="far fa-circle nav-icon"></i>
-                           <p>Lista de inventarios</p>
+                         <a href="{{url_for('products')}}" class="nav-link {% if (url_for('products') == request.url_rule.rule) %}active{% endif %}">
+                           <i class="nav-icon fas fa-boxes-stacked"></i>
+                           <p>Productos</p>
                          </a>
                        </li>
                        <li class="nav-item">
-                         <a href="{{url_for('adjustments')}}" class="nav-link {% if '/inventory/adjustments' == request.url_rule.rule %}active{% endif %}">
-                           <i class="far fa-circle nav-icon"></i>
+                         <a href="{{url_for('category')}}" class="nav-link {% if (url_for('category') == request.url_rule.rule) %}active{% endif %}">
+                           <i class="nav-icon fas fa-border-all"></i>
+                           <p>Categoria de productos</p>
+                         </a>
+                       </li>
+                       <li class="nav-item">
+                         <a href="{{url_for('adjustments')}}" class="nav-link {% if (url_for('adjustments') == request.url_rule.rule) %}active{% endif %}">
+                           <i class="nav-icon nav-icon fas fa-cogs"></i>
                            <p>Ajustes de inventarios</p>
                          </a>
                        </li>
                      </ul>
                   </li>
                   <li class="nav-item">
-                     <a href="{{url_for('logout')}}" class="nav-link btn btn-block bg-gradient-danger">
+                     <a href="{{url_for('logout')}}" class="nav-link bg-gradient-danger">
                      <i class="nav-icon fas fa-sign-out"></i>
                         <p>Cerrar Sesion</p>
                      </a>

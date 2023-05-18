@@ -6,7 +6,7 @@ from models.user import User
 from functools import wraps
 from pprint import pprint
 
-class App(object):
+class App():
     def __init__(self):
         self.app = Flask(__name__)
         self.app.config['SESSION_TYPE'] = 'filesystem'
@@ -30,6 +30,7 @@ class App(object):
         self.app.add_url_rule('/warehouse', view_func=self.warehouse)
         self.app.add_url_rule('/inventory/products', view_func=self.products)
         self.app.add_url_rule('/inventory/adjustments', view_func=self.adjustments)
+        self.app.add_url_rule('/inventory/category', view_func=self.category)
         self.app.add_url_rule('/error', view_func=self.error)
         
         self.socketio.on_event('message', self.handle_message)
@@ -77,7 +78,6 @@ class App(object):
         else:
             return redirect(url_for('dashboard'))
 
-
     def submit_login(self):
         if request.method == 'POST':
             username = request.form.get('username')
@@ -103,23 +103,19 @@ class App(object):
         session.pop("is_session", None)
         return redirect(url_for('login'))
 
-
     @login_required
     def dashboard(self):
         return render_template('modulos/dashboard.html')
-
 
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
     def clients(self):
         return render_template('modulos/clients.html')
 
-
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
     def warehouse(self):
         return render_template('modulos/warehouse.html')
-
 
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
@@ -135,6 +131,11 @@ class App(object):
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
     def adjustments(self):
         return render_template('modulos/inventory/adjustments.html')
+    
+    @login_required
+    @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
+    def category(self):
+        return render_template('modulos/inventory/category.html')
     
     def run(self):
         self.socketio.run(
