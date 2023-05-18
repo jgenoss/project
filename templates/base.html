@@ -62,24 +62,42 @@
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('usuarios')}}" class="nav-link {% if '/usuarios' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('users')}}" class="nav-link {% if '/users' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fas fa-users"></i><p>Usuarios</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('clientes')}}" class="nav-link {% if '/clientes' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('clients')}}" class="nav-link {% if '/clients' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon nav-icon fas fa-user"></i><p>Clientes</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('bodegas')}}" class="nav-link {% if '/bodegas' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('warehouse')}}" class="nav-link {% if '/warehouse' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fa-solid fa-warehouse"></i><p>Bodegas</p>
                      </a>
                   </li>
-                  <li class="nav-item">
-                     <a href="{{ url_for('productos')}}" class="nav-link {% if '/productos' == request.url_rule.rule  %}active{% endif %}">
-                        <i class="nav-icon fa-solid fa-boxes-stacked"></i><p>Productos</p>
+                  <li class="nav-item {% if ('/inventory/products' == request.url_rule.rule) and ('/inventory/adjustments' == request.url_rule.rule) %}menu-opene{% endif %}">
+                     <a href="#" class="nav-link {% if ('/inventory/products' == request.url_rule.rule) and ('/inventory/adjustments' == request.url_rule.rule)  %}active{% endif %}">
+                       <i class="nav-icon nav-icon fas fa-dolly-flatbed"></i>
+                       <p>
+                         Inventario
+                         <i class="fas fa-angle-left right"></i>
+                       </p>
                      </a>
+                     <ul class="nav nav-treeview">
+                       <li class="nav-item">
+                         <a href="{{url_for('products')}}" class="nav-link {% if '/inventory/products' == request.url_rule.rule %}active{% endif %}">
+                           <i class="far fa-circle nav-icon"></i>
+                           <p>Lista de inventarios</p>
+                         </a>
+                       </li>
+                       <li class="nav-item">
+                         <a href="{{url_for('adjustments')}}" class="nav-link {% if '/inventory/adjustments' == request.url_rule.rule %}active{% endif %}">
+                           <i class="far fa-circle nav-icon"></i>
+                           <p>Ajustes de inventarios</p>
+                         </a>
+                       </li>
+                     </ul>
                   </li>
                   <li class="nav-item">
                      <a href="{{url_for('logout')}}" class="nav-link btn btn-block bg-gradient-danger">

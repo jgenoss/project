@@ -25,10 +25,11 @@ class App(object):
         self.app.add_url_rule('/submit_login', methods=['GET', 'POST'], view_func=self.submit_login)
         self.app.add_url_rule('/logout', view_func=self.logout)
         self.app.add_url_rule('/dashboard', view_func=self.dashboard)
-        self.app.add_url_rule('/clientes', view_func=self.clientes)
-        self.app.add_url_rule('/bodegas', view_func=self.bodegas)
-        self.app.add_url_rule('/usuarios', view_func=self.usuarios)
-        self.app.add_url_rule('/productos', view_func=self.productos)
+        self.app.add_url_rule('/users', view_func=self.users)
+        self.app.add_url_rule('/clients', view_func=self.clients)
+        self.app.add_url_rule('/warehouse', view_func=self.warehouse)
+        self.app.add_url_rule('/inventory/products', view_func=self.products)
+        self.app.add_url_rule('/inventory/adjustments', view_func=self.adjustments)
         self.app.add_url_rule('/error', view_func=self.error)
         
         self.socketio.on_event('message', self.handle_message)
@@ -110,26 +111,30 @@ class App(object):
 
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
-    def clientes(self):
-        return render_template('modulos/clientes.html')
+    def clients(self):
+        return render_template('modulos/clients.html')
 
 
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
-    def bodegas(self):
-        return render_template('modulos/bodegas.html')
+    def warehouse(self):
+        return render_template('modulos/warehouse.html')
 
 
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
-    def usuarios(self):
-        return render_template('modulos/usuarios.html')
-
-
+    def users(self):
+        return render_template('modulos/users.html')
+    
     @login_required
     @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
-    def productos(self):
-        return render_template('modulos/productos.html')
+    def products(self):
+        return render_template('modulos/inventory/products.html')
+    
+    @login_required
+    @require_permissions(roles=['Admin', 'Editor', 'Lector'], permissions=['Leer'])
+    def adjustments(self):
+        return render_template('modulos/inventory/adjustments.html')
     
     def run(self):
         self.socketio.run(
