@@ -10,20 +10,20 @@ class db_manager:
         )
         self.cursor = self.conn.cursor(buffered=True)
     
-    def execute(self, query):
+    def execute(self, query, parameters=None):
         try:
-            self.cursor.execute(query)
+            self.cursor.execute(query, params=parameters)
             self.conn.commit()
             return self.cursor.lastrowid
         except mysql.connector.Error as error:
             print("Error: {}".format(error))
     
-    def fetch_all(self, query):
-        self.cursor.execute(query)
+    def fetch_all(self, query, parameters=None):
+        self.cursor.execute(query, params=parameters)
         return self.cursor.fetchall()
     
-    def fetch_one(self, query):
-        self.cursor.execute(query)
+    def fetch_one(self, query, parameters=None):
+        self.cursor.execute(query, params=parameters)
         return self.cursor.fetchone()
     
     def close(self):

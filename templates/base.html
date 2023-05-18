@@ -1,30 +1,6 @@
 {% if current_user %}
 <!DOCTYPE html>
 <html id="html">
-   {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-         {% for category, message in messages %}
-            {% if category == 'error'%}
-               <script>
-                  document.addEventListener("contextmenu", (e) => {
-                     e.preventDefault();
-                  });
-                  document.addEventListener("keydown", (e) => {
-                     e.preventDefault();
-                     if(e.keydoCode == 123){
-                        return false;
-                     }
-                  });
-                  var html = document.getElementById("html");
-                  html.innerHTML = "";
-                  alert('{{ message }}')
-                  </script>
-               {% else %}
-                     <script>alert('- {{ message }} -')</script>
-               {% endif %}
-            {% endfor %}
-         {% endif %}
-      {% endwith %}
 	<head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -73,7 +49,7 @@
          </nav>
 	    <aside class="main-sidebar sidebar-dark-primary elevation-4">
 				<div class="p-1 mt-3 mb-3">
-					<a href="{{url_for('controller.dashboard')}}">
+					<a href="{{url_for('dashboard')}}">
 			         <img src="{{url_for('static',filename='img/logo.png')}}" width="210px">
                </a>
 				</div>
@@ -81,32 +57,32 @@
             <nav class="mt-2">
                <ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
                   <li class="nav-item">
-                     <a href="{{ url_for('controller.dashboard')}}" class="nav-link {% if '/dashboard' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('dashboard')}}" class="nav-link {% if '/dashboard' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('controller.usuarios')}}" class="nav-link {% if '/usuarios' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('usuarios')}}" class="nav-link {% if '/usuarios' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fas fa-users"></i><p>Usuarios</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('controller.clientes')}}" class="nav-link {% if '/clientes' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('clientes')}}" class="nav-link {% if '/clientes' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon nav-icon fas fa-user"></i><p>Clientes</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('controller.bodegas')}}" class="nav-link {% if '/bodegas' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('bodegas')}}" class="nav-link {% if '/bodegas' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fa-solid fa-warehouse"></i><p>Bodegas</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{ url_for('controller.productos')}}" class="nav-link {% if '/productos' == request.url_rule.rule  %}active{% endif %}">
+                     <a href="{{ url_for('productos')}}" class="nav-link {% if '/productos' == request.url_rule.rule  %}active{% endif %}">
                         <i class="nav-icon fa-solid fa-boxes-stacked"></i><p>Productos</p>
                      </a>
                   </li>
                   <li class="nav-item">
-                     <a href="{{url_for('controller.logout')}}" class="nav-link btn btn-block bg-gradient-danger">
+                     <a href="{{url_for('logout')}}" class="nav-link btn btn-block bg-gradient-danger">
                      <i class="nav-icon fas fa-sign-out"></i>
                         <p>Cerrar Sesion</p>
                      </a>
@@ -151,5 +127,25 @@
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
       <script src="{{url_for('static',filename='plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+      <script src="{{url_for('static',filename='plugins/socket.io.js')}}"></script>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+         {% for category, message in messages %}
+            {% if category == 'error'%}
+                  <script>
+                     Swal.fire({
+                        icon: 'info',
+                        title: 'ERROR',
+                        text: 'No tiene permisos para acceder a esta página',
+                        showConfirmButton: false,
+                        timer: 5000
+                      })
+                  </script>
+               {% else %}
+                     <script>alert('- {{ message }} -')</script>
+               {% endif %}
+            {% endfor %}
+         {% endif %}
+      {% endwith %}
 </html>
 {% endif %}
